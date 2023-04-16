@@ -37,24 +37,10 @@ public class MemberManager implements CRUD<Member> {
 
     }
 
-    // 멤버의 수 구하기
-    public String countMember() {
-        String sql = "SELECT COUNT(*) FROM MEMBER";
-
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            ResultSet rs = pstmt.executeQuery();
-            return (String) rs.getObject(1);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     // id순으로 전체 조회
     @Override
     public void read() {
-        String sql = "SELECT * FROM MEMBER";
+        String sql = "SELECT * FROM MEMBER ORDER BY ID";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             ResultSet rs = pstmt.executeQuery();
@@ -110,19 +96,10 @@ public class MemberManager implements CRUD<Member> {
     // 회원 삭제
     @Override
     public void delete(String id) throws SQLException {
-
-        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM MEMBER WHERE ID = ?");
+        PreparedStatement pstmt = conn.prepareStatement("DELETE FROM MEMBER WHERE ID=?");
         pstmt.setString(1, id);
-        ResultSet rs = pstmt.executeQuery();
-
-        if (rs.next()) {
-            PreparedStatement pstmt2 = conn.prepareStatement("DELETE FROM MEMBER WHERE ID=?");
-            pstmt2.setString(1, id);
-            pstmt2.executeUpdate();
-            System.out.println("<삭제 완료>");
-        } else {
-            System.out.println("<삭제 실패>");
-        }
+        pstmt.executeUpdate();
+        System.out.println("<회원 삭제 완료>");
     }
 
 

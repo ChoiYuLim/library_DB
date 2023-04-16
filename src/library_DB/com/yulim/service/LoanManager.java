@@ -6,17 +6,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import library_DB.com.yulim.entity.Loan;
-import library_DB.com.yulim.util.DateUtil;
 import library_DB.com.yulim.util.JDBCUtil;
 
 public class LoanManager {
 
     Connection conn = JDBCUtil.getConnection();
 
-    // 특정 회원의 모든 대출 이력
+    // 특정 회원의 모든 대출 이력, 최신 순으로 정렬
     public void readAllBook(String memberId) {
-        String sql = "SELECT * FROM LOAN WHERE MEMBERID = ?";
+        String sql = "SELECT * FROM LOAN WHERE MEMBERID = ? ORDER BY LOADID DESC";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, memberId);
             ResultSet rs = pstmt.executeQuery();
@@ -50,10 +48,10 @@ public class LoanManager {
         }
     }
 
-    // 특정 회원의 현재 대출 중인 책
+    // 특정 회원의 현재 대출 중인 책, 반납 기간 임박한 순서
     public void readNowBook(String memberId) {
         String sql =
-                "SELECT * FROM LOAN WHERE BOOKID IN (SELECT ID FROM BOOK WHERE CURRENTOWNERID = ?) AND LOAN.ISRETURNED = 'F'";
+                "SELECT * FROM LOAN WHERE BOOKID IN (SELECT ID FROM BOOK WHERE CURRENTOWNERID = ?) AND LOAN.ISRETURNED = 'F' ORDER BY DEADLINE DESC";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, memberId);
             ResultSet rs = pstmt.executeQuery();

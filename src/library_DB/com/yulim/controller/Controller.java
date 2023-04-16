@@ -61,7 +61,7 @@ public class Controller {
                 case 2: {
                     System.out.println("\n<회원가입>\n아이디를 입력해주세요.");
                     String id = sc.next();
-                    System.out.println("\n이름을 입력해주세요.");
+                    System.out.println("이름을 입력해주세요.");
                     String name = sc.next();
                     System.out.println("성별을 입력해주세요.(여자/남자)");
                     String gender = sc.next();
@@ -146,9 +146,12 @@ public class Controller {
                 // 회원 삭제
                 case 3: {
                     System.out.println("\n<회원 삭제>\n삭제하고 싶은 회원 번호를 입력하세요.");
-
                     String id = sc.next();
-                    mm.delete(id);
+                    if (mm.findMember(id) != null) {
+                        mm.delete(id);
+                    } else {
+                        System.out.println("\n<회원 삭제 실패>");
+                    }
                     break;
                 }
                 // 삭제 취소
@@ -190,7 +193,7 @@ public class Controller {
                         String publishedDate = sc.next();
                         bm.create(new Book(id, name, author, publishedDate));
                     } catch (Exception e) {
-                        System.out.println("<책 수정 실패>");
+                        System.out.println("<도서 추가 실패>");
                         return;
                     }
                     break;
@@ -200,7 +203,7 @@ public class Controller {
                     break;
                 }
                 case 3: {
-                    System.out.println("\n<책 수정>\n수정하고 싶은 책 번호를 입력하세요.");
+                    System.out.println("\n<도서 수정>\n수정하고 싶은 책 번호를 입력하세요.");
                     String id = sc.next();
                     System.out.println("책 이름을 수정해주세요.");
                     String name = sc.next();
@@ -212,9 +215,13 @@ public class Controller {
                     break;
                 }
                 case 4: {
-                    System.out.println("\n<책 삭제>\n삭제하고 싶은 책 번호를 입력하세요.");
+                    System.out.println("\n<도서 삭제>\n삭제하고 싶은 책 번호를 입력하세요.");
                     String id = sc.next();
-                    bm.delete(id);
+                    if (bm.findBook(id)) {
+                        bm.delete(id);
+                    } else {
+                        System.out.println("\n<도서 삭제 실패>");
+                    }
                     break;
                 }
                 default: {

@@ -29,7 +29,7 @@ public class JDBCUtil {
         } catch (SQLException e) {
             // 데이터베이스 연결 및 쿼리 실행 중 예외가 발생한 경우 처리합니다.
             e.printStackTrace();
-        } 
+        }
         return conn;
     }
 }

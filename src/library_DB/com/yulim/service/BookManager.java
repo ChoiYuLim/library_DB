@@ -10,9 +10,9 @@ import library_DB.com.yulim.entity.Book;
 
 public class BookManager implements CRUD<Book> {
 
-    // 모든 책 리스트 가져오기
+    // 모든 책 리스트 최신 출간 순으로 가져오기
     public void readAllBook() {
-        String sql = "SELECT * FROM BOOK";
+        String sql = "SELECT * FROM BOOK ORDER BY PUBLISHEDDATE DESC";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             ResultSet rs = pstmt.executeQuery();
@@ -29,15 +29,15 @@ public class BookManager implements CRUD<Book> {
                 Date publishedDate = rs.getDate("PUBLISHEDDATE");
                 String canborrow = rs.getString("CANBORROW");
                 String currentOwnerId = rs.getString("CURRENTOWNERID");
-                System.out.println(id + "\t " + name + "\t " + author + "\t " + publishedDate + "\t"
-                        + canborrow + "\t" + currentOwnerId);
+                System.out.println(id + "\t " + name + "\t " + author + "\t " + publishedDate
+                        + "\t " + canborrow + "\t " + currentOwnerId);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    // Id값으로 책 있는지 없는지
+    // Id 값으로 책 있는지 없는지
     public boolean findBook(String id) {
         String sql = "SELECT * FROM BOOK WHERE ID = ?";
 
@@ -56,7 +56,7 @@ public class BookManager implements CRUD<Book> {
     // 최근 출간 순으로 빌릴 수 있는 책만 조회
     @Override
     public void read() {
-        String sql = "SELECT * FROM BOOK WHERE CANBORROW = 'T'";
+        String sql = "SELECT * FROM BOOK WHERE CANBORROW = 'T' ORDER BY PUBLISHEDDATE DESC";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             ResultSet rs = pstmt.executeQuery();
@@ -73,8 +73,8 @@ public class BookManager implements CRUD<Book> {
                 Date publishedDate = rs.getDate("PUBLISHEDDATE");
                 String canborrow = rs.getString("CANBORROW");
                 String currentOwnerId = rs.getString("CURRENTOWNERID");
-                System.out.println(id + "\t " + name + "\t " + author + "\t " + publishedDate + "\t"
-                        + canborrow + "\t" + currentOwnerId);
+                System.out.println(id + "\t " + name + "\t " + author + "\t " + publishedDate
+                        + "\t " + canborrow + "\t " + currentOwnerId);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -107,18 +107,10 @@ public class BookManager implements CRUD<Book> {
 
     @Override
     public void delete(String id) throws SQLException {
-        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM BOOK WHERE ID = ?");
+        PreparedStatement pstmt = conn.prepareStatement("DELETE FROM BOOK WHERE ID=?");
         pstmt.setString(1, id);
-        ResultSet rs = pstmt.executeQuery();
-
-        if (rs.next()) {
-            PreparedStatement pstmt2 = conn.prepareStatement("DELETE FROM BOOK WHERE ID=?");
-            pstmt2.setString(1, id);
-            pstmt2.executeUpdate();
-            System.out.println("<삭제 완료>");
-        } else {
-            System.out.println("<삭제 실패>");
-        }
+        pstmt.executeUpdate();
+        System.out.println("<도서 삭제 완료>");
     }
 
 
