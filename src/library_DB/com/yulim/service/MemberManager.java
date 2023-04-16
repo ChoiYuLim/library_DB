@@ -56,7 +56,7 @@ public class MemberManager implements CRUD<Member> {
             ResultSetMetaData rsmd = rs.getMetaData();
             int columnCount = rsmd.getColumnCount();
             for (int j = 1; j <= columnCount; j++) {
-                System.out.print(rsmd.getColumnName(j) + "\t ");
+                System.out.print(rsmd.getColumnName(j) + "\t\t");
             }
             System.out.println();
             while (rs.next()) {
@@ -68,8 +68,8 @@ public class MemberManager implements CRUD<Member> {
                 String phone = rs.getString("PHONE");
                 Date joindate = rs.getDate("JOINDATE");
                 String age = rs.getString("AGE");
-                System.out.println(id + "\t " + name + "\t " + gender + "\t " + birth + "\t"
-                        + address + "\t" + phone + "\t" + joindate + "\t" + age);
+                System.out.println(id + "\t\t" + name + "\t\t" + gender + "\t\t" + birth + "\t"
+                        + address + "\t" + phone + "\t" + joindate + "\t\t" + age);
             }
         } catch (SQLException e) {
             e.printStackTrace();

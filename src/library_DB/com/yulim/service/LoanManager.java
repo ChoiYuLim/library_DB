@@ -26,22 +26,22 @@ public class LoanManager {
                 return;
             }
             for (int j = 1; j <= columnCount; j++) {
-                System.out.print(rsmd.getColumnName(j) + "\t ");
+                if (j != 4) {
+                    System.out.print(rsmd.getColumnName(j) + "\t ");
+                }
             }
             System.out.println();
             while (rs.next()) {
                 int id = rs.getInt("LOANID");
                 String bookId = rs.getString("BOOKID");
                 String bookName = rs.getString("BOOKNAME");
-                String memberId2 = rs.getString("MEMBERID");
                 Date borrowDate = rs.getDate("BORROWDATE");
                 Date deadLine = rs.getDate("DEADLINE");
                 String isExtended = rs.getString("ISEXTENDED");
                 String isReturned = rs.getString("ISRETURNED");
 
-                System.out.println(id + "\t " + bookId + "\t " + bookName + "\t \t " + memberId2
-                        + "\t \t " + borrowDate + "\t " + deadLine + "\t " + isExtended + "\t \t "
-                        + isReturned);
+                System.out.println(id + "\t " + bookId + "\t " + bookName + "\t \t " + borrowDate
+                        + "\t " + deadLine + "\t " + isExtended + "\t \t " + isReturned);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -62,21 +62,22 @@ public class LoanManager {
                 System.out.println("<현재 대출 중인 책이 없습니다.>");
             }
             for (int j = 1; j <= columnCount; j++) {
-                System.out.print(rsmd.getColumnName(j) + "\t ");
+                if (j != 4) {
+                    System.out.print(rsmd.getColumnName(j) + "\t ");
+                }
             }
             System.out.println();
             while (rs.next()) {
                 int id = rs.getInt("LOANID");
                 String bookId = rs.getString("BOOKID");
                 String bookName = rs.getString("BOOKNAME");
-                String memberId2 = rs.getString("MEMBERID");
                 Date borrowDate = rs.getDate("BORROWDATE");
                 Date deadLine = rs.getDate("DEADLINE");
                 String isExtended = rs.getString("ISEXTENDED");
                 String isReturned = rs.getString("ISRETURNED");
 
-                System.out.println(id + "\t " + bookId + "\t " + bookName + "\t " + memberId2 + "\t"
-                        + borrowDate + "\t" + deadLine + "\t" + isExtended + "\t" + isReturned);
+                System.out.println(id + "\t " + bookId + "\t " + bookName + "\t \t " + borrowDate
+                        + "\t " + deadLine + "\t " + isExtended + "\t\t " + isReturned);
             }
         } catch (SQLException e) {
             e.printStackTrace();

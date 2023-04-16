@@ -30,7 +30,7 @@ public class BookManager implements CRUD<Book> {
                 String canborrow = rs.getString("CANBORROW");
                 String currentOwnerId = rs.getString("CURRENTOWNERID");
                 System.out.println(id + "\t " + name + "\t " + author + "\t " + publishedDate
-                        + "\t " + canborrow + "\t " + currentOwnerId);
+                        + "\t " + canborrow + "\t \t " + currentOwnerId);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -74,7 +74,7 @@ public class BookManager implements CRUD<Book> {
                 String canborrow = rs.getString("CANBORROW");
                 String currentOwnerId = rs.getString("CURRENTOWNERID");
                 System.out.println(id + "\t " + name + "\t " + author + "\t " + publishedDate
-                        + "\t " + canborrow + "\t " + currentOwnerId);
+                        + "\t " + canborrow + "\t \t " + currentOwnerId);
             }
         } catch (SQLException e) {
             e.printStackTrace();
