@@ -8,8 +8,7 @@ public class Book {
     private boolean canBorrow;
     private String currentOwnerId;
 
-    public Book(String id, String name, String author, String publishedDate) {
-        this.id = id;
+    public Book(String name, String author, String publishedDate) {
         this.name = name;
         this.author = author;
         this.publishedDate = publishedDate;

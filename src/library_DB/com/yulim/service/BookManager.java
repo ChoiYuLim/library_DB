@@ -115,26 +115,35 @@ public class BookManager implements CRUD<Book> {
 
 
     @Override
-    public void create(Book newBook) throws ParseException {
-        String sql = "INSERT INTO BOOK(ID, NAME, AUTHOR, PUBLISHEDDATE) "
-                + "VALUES (?,?,?, TO_DATE(?,'RRRR/MM/DD'))";
+    public String create(Book newBook) throws ParseException {
+        String sql = "INSERT INTO BOOK(NAME, AUTHOR, PUBLISHEDDATE) "
+                + "VALUES (?,?, TO_DATE(?,'RRRR/MM/DD'))";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, newBook.getId());
-            pstmt.setString(2, newBook.getName());
-            pstmt.setString(3, newBook.getAuthor());
-            pstmt.setString(4, newBook.getPublishedDate());
+            pstmt.setString(1, newBook.getName());
+            pstmt.setString(2, newBook.getAuthor());
+            pstmt.setString(3, newBook.getPublishedDate());
 
             int result = pstmt.executeUpdate();
             if (result == 0) {
                 System.out.println("<책 생성 실패>");
             } else {
                 System.out.println("<책 생성 완료>");
+                String sql2 = "SELECT ID FROM BOOK WHERE ROWNUM = 1 ORDER BY ID DESC";
+                try (PreparedStatement pstmt2 = conn.prepareStatement(sql2)) {
+                    ResultSet rs = pstmt2.executeQuery();
+                    if (rs.next()) {
+                        return String.valueOf(rs.getInt("ID"));
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
 
     }
 

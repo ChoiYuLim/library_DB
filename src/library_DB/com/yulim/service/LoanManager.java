@@ -14,7 +14,7 @@ public class LoanManager {
 
     // 특정 회원의 모든 대출 이력, 최신 순으로 정렬
     public void readAllBook(String memberId) {
-        String sql = "SELECT * FROM LOAN WHERE MEMBERID = ? ORDER BY LOADID DESC";
+        String sql = "SELECT * FROM LOAN WHERE MEMBERID = ? ORDER BY LOANID DESC";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, memberId);
             ResultSet rs = pstmt.executeQuery();

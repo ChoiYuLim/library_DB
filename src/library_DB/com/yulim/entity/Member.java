@@ -13,7 +13,7 @@ public class Member {
     private String phone;
 
     // 회원 가입
-    public Member(String id, String name, String gender, String birth, String address,
+    public Member(String name, String gender, String birth, String address,
             String phone) {
         this.name = name;
         this.address = address;
@@ -21,7 +21,6 @@ public class Member {
         this.gender = gender;
         this.phone = phone;
         this.joinDate = DateUtil.getToday();
-        this.id = id;
     }
 
     public String getName() {

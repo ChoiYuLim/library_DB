@@ -59,9 +59,7 @@ public class Controller {
                 }
                 // 회원 가입
                 case 2: {
-                    System.out.println("\n<회원가입>\n아이디를 입력해주세요.");
-                    String id = sc.next();
-                    System.out.println("이름을 입력해주세요.");
+                    System.out.println("\n<회원가입>\n이름을 입력해주세요.");
                     String name = sc.next();
                     System.out.println("성별을 입력해주세요.(여자/남자)");
                     String gender = sc.next();
@@ -72,7 +70,7 @@ public class Controller {
                     System.out.println("연락처를 입력해주세요.");
                     String phone = sc.next();
 
-                    mm.create(new Member(id, name, gender, birth, address, phone));
+                    String id = mm.create(new Member(name, gender, birth, address, phone));
                     System.out.println("\n<회원가입 완료>\n로그인 시 회원번호 " + id + "으로 입력해주세요.");
 
                     로그인(id);
@@ -139,7 +137,7 @@ public class Controller {
                     String address = sc.next();
                     System.out.println("연락처를 수정해주세요.");
                     String phone = sc.next();
-                    mm.update(id, new Member(id, name, gender, birth, address, phone));
+                    mm.update(id, new Member(name, gender, birth, address, phone));
 
                     break;
                 }
@@ -150,7 +148,7 @@ public class Controller {
                     if (mm.findMember(id) != null) {
                         mm.delete(id);
                     } else {
-                        System.out.println("\n<회원 삭제 실패>");
+                        System.out.println("<회원 삭제 실패>");
                     }
                     break;
                 }
@@ -183,15 +181,13 @@ public class Controller {
                 }
                 case 1: {
                     try {
-                        System.out.println("\n<도서 추가>\n추가할 책 번호를 입력하세요.");
-                        String id = sc.next();
-                        System.out.println("추가할 책 이름을 입력하세요.");
+                        System.out.println("\n<도서 추가>\n추가할 책 이름을 입력하세요.");
                         String name = sc.next();
                         System.out.println("책 저자를 입력해주세요.");
                         String author = sc.next();
                         System.out.println("책 출판일을 입력해주세요.");
                         String publishedDate = sc.next();
-                        bm.create(new Book(id, name, author, publishedDate));
+                        bm.create(new Book(name, author, publishedDate));
                     } catch (Exception e) {
                         System.out.println("<도서 추가 실패>");
                         return;
@@ -211,7 +207,7 @@ public class Controller {
                     String author = sc.next();
                     System.out.println("책 출판일을 수정해주세요.");
                     String publishedDate = sc.next();
-                    bm.update(id, new Book(id, name, publishedDate, author));
+                    bm.update(id, new Book(name, publishedDate, author));
                     break;
                 }
                 case 4: {

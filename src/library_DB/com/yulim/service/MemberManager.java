@@ -12,28 +12,37 @@ public class MemberManager implements CRUD<Member> {
 
     // 회원 가입
     @Override
-    public void create(Member newMember) throws ParseException {
-        String sql = "INSERT INTO MEMBER(ID, NAME, GENDER, BIRTH, ADDRESS, PHONE) "
-                + "VALUES (?,?,?, TO_DATE(?,'RRRR/MM/DD'), ?, ?)";
+    public String create(Member newMember) throws ParseException {
+        String sql = "INSERT INTO MEMBER(NAME, GENDER, BIRTH, ADDRESS, PHONE) "
+                + "VALUES (?,?, TO_DATE(?,'RRRR/MM/DD'), ?, ?)";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, newMember.getId());
-            pstmt.setString(2, newMember.getName());
-            pstmt.setString(3, newMember.getGender());
-            pstmt.setString(4, newMember.getBirth());
-            pstmt.setString(5, newMember.getAddress());
-            pstmt.setString(6, newMember.getPhone());
+            pstmt.setString(1, newMember.getName());
+            pstmt.setString(2, newMember.getGender());
+            pstmt.setString(3, newMember.getBirth());
+            pstmt.setString(4, newMember.getAddress());
+            pstmt.setString(5, newMember.getPhone());
 
             int result = pstmt.executeUpdate();
             if (result == 0) {
                 System.out.println("<멤버 생성 실패>");
             } else {
                 System.out.println("<멤버 생성 완료>");
+                String sql2 = "SELECT ID FROM MEMBER WHERE ROWNUM = 1 ORDER BY ID DESC";
+                try (PreparedStatement pstmt2 = conn.prepareStatement(sql2)) {
+                    ResultSet rs = pstmt2.executeQuery();
+                    if (rs.next()) {
+                        return String.valueOf(rs.getInt("ID"));
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
 
     }
 
@@ -85,7 +94,7 @@ public class MemberManager implements CRUD<Member> {
             if (result == 0) {
                 System.out.println("<수정 불가>");
             } else {
-                System.out.println(result + " rows updated.");
+                System.out.println("<수정 완료>");
             }
 
         } catch (SQLException e) {
@@ -116,7 +125,7 @@ public class MemberManager implements CRUD<Member> {
             pstmt.setString(1, id);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                return new Member(rs.getString("ID"), rs.getString("NAME"), rs.getString("GENDER"),
+                return new Member(rs.getString("NAME"), rs.getString("GENDER"),
                         rs.getString("BIRTH"), rs.getString("ADDRESS"), rs.getString("PHONE"));
             }
         } catch (SQLException e) {

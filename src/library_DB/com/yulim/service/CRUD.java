@@ -8,7 +8,7 @@ import library_DB.com.yulim.util.JDBCUtil;
 public interface CRUD<E> {
     Connection conn = JDBCUtil.getConnection();
 
-    void create(E e) throws ParseException;
+    String create(E e) throws ParseException;
 
     void read();
 
