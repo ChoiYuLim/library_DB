@@ -7,7 +7,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.ParseException;
 import library_DB.com.yulim.entity.Book;
-import library_DB.com.yulim.util.DateUtil;
 
 public class BookManager implements CRUD<Book> {
 
@@ -181,7 +180,8 @@ public class BookManager implements CRUD<Book> {
         pstmt.setString(6, deleteBook.getCurrentOwnerId());
 
         pstmt.executeUpdate();
-        System.out.println("<삭제 취소 완료>");
+        System.out.println("도서 \"" + deleteBook.getName() + "\" 삭제 취소 완료");
+        deleteBook.setId(null);
     }
 
 }

@@ -6,9 +6,12 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.ParseException;
+import library_DB.com.yulim.entity.Book;
 import library_DB.com.yulim.entity.Member;
 
 public class MemberManager implements CRUD<Member> {
+
+    Member deleteMember = new Member(null, null, null, null, null);
 
     // 회원 가입
     @Override
@@ -105,18 +108,29 @@ public class MemberManager implements CRUD<Member> {
     // 회원 삭제
     @Override
     public void delete(String id) throws SQLException {
+        // 삭제 취소를 위한 저장
+        PreparedStatement cancelSql = conn.prepareStatement("SELECT * FROM MEMBER WHERE ID = ?");
+        cancelSql.setString(1, id);
+
+        // 삭제된 멤버 정보 string형태로 저장
+        ResultSet rs = cancelSql.executeQuery();
+        rs.next();
+        deleteMember.setId(rs.getString("ID"));
+        deleteMember.setName(rs.getString("NAME"));
+        deleteMember.setGender(rs.getString("GENDER"));
+        deleteMember.setBirth(rs.getString("BIRTH"));
+        deleteMember.setAddress(rs.getString("ADDRESS"));
+        deleteMember.setPhone(rs.getString("PHONE"));
+        deleteMember.setJoinDate(rs.getString("JOINDATE"));
+
         PreparedStatement pstmt = conn.prepareStatement("DELETE FROM MEMBER WHERE ID=?");
         pstmt.setString(1, id);
         pstmt.executeUpdate();
         System.out.println("<회원 삭제 완료>");
     }
 
-    // 삭제 취소
-    @Override
-    public void redo() {
-        
-    }
-   
+
+
     // id 값으로 멤버 정보 반환
     public Member findMember(String id) {
         String sql = "SELECT * FROM MEMBER WHERE ID=?";
@@ -132,6 +146,31 @@ public class MemberManager implements CRUD<Member> {
             e.printStackTrace();
         }
         return null;
+    }
+
+    // 삭제 취소
+    @Override
+    public void redo() throws SQLException {
+        if (deleteMember.getId() == null) {
+            System.out.println("<삭제 취소할 회원이 없습니다.>");
+            return;
+        }
+
+        PreparedStatement pstmt = conn.prepareStatement(
+                "INSERT INTO MEMBER(ID, NAME, GENDER, BIRTH, ADDRESS, PHONE, JOINDATE) VALUES(?, ?, ?, ?, ?, ?, ?)");
+
+        pstmt.setString(1, deleteMember.getId());
+        pstmt.setString(2, deleteMember.getName());
+        pstmt.setString(3, deleteMember.getGender());
+        pstmt.setString(4, deleteMember.getBirth().substring(0, 10));
+        pstmt.setString(5, deleteMember.getAddress());
+        pstmt.setString(6, deleteMember.getPhone());
+        pstmt.setString(7, deleteMember.getJoinDate().substring(0, 10));
+
+        pstmt.executeUpdate();
+
+        System.out.println("회원 \""+ deleteMember.getName()+ "\"님 삭제 취소 완료");
+        deleteMember.setId(null);
     }
 
 }
