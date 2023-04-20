@@ -154,6 +154,7 @@ public class Controller {
                 }
                 // 삭제 취소
                 case 4: {
+                    System.out.println("\n<삭제 취소>\n마지막으로 삭제했던 회원을 복구합니다.");
                     mm.redo();
                     break;
                 }
@@ -172,7 +173,7 @@ public class Controller {
     public void 도서관리() throws SQLException {
         int option;
         while (true) {
-            System.out.println("\n<도서 관리>\n0. 뒤로 가기 1. 도서 추가 2. 도서 조회 3. 도서 수정 4. 도서 삭제");
+            System.out.println("\n<도서 관리>\n0. 뒤로 가기 1. 도서 추가 2. 도서 조회 3. 도서 수정 4. 도서 삭제 5. 삭제 취소");
             option = sc.nextInt();
 
             switch (option) {
@@ -218,6 +219,11 @@ public class Controller {
                     } else {
                         System.out.println("\n<도서 삭제 실패>");
                     }
+                    break;
+                }
+                case 5: {
+                    System.out.println("\n<삭제 취소>\n마지막으로 삭제했던 도서를 복구합니다.");
+                    bm.redo();
                     break;
                 }
                 default: {

@@ -16,4 +16,5 @@ public interface CRUD<E> {
 
     void delete(String s) throws SQLException;
 
+    void redo() throws SQLException;
 }

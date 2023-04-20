@@ -111,12 +111,12 @@ public class MemberManager implements CRUD<Member> {
         System.out.println("<회원 삭제 완료>");
     }
 
-
     // 삭제 취소
+    @Override
     public void redo() {
-
+        
     }
-
+   
     // id 값으로 멤버 정보 반환
     public Member findMember(String id) {
         String sql = "SELECT * FROM MEMBER WHERE ID=?";

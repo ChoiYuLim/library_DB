@@ -7,8 +7,11 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.ParseException;
 import library_DB.com.yulim.entity.Book;
+import library_DB.com.yulim.util.DateUtil;
 
 public class BookManager implements CRUD<Book> {
+
+    Book deleteBook = new Book(null, null, null);
 
     // 모든 책 리스트 최신 출간 순으로 가져오기
     public void readAllBook() {
@@ -52,7 +55,6 @@ public class BookManager implements CRUD<Book> {
         return false;
     }
 
-
     // 최근 출간 순으로 빌릴 수 있는 책만 조회
     @Override
     public void read() {
@@ -81,7 +83,6 @@ public class BookManager implements CRUD<Book> {
         }
     }
 
-
     @Override
     public void update(String id, Book changeBook) {
         String sql =
@@ -107,12 +108,27 @@ public class BookManager implements CRUD<Book> {
 
     @Override
     public void delete(String id) throws SQLException {
+
+        // 삭제 취소를 위한 저장
+        PreparedStatement cancelSql = conn.prepareStatement("SELECT * FROM BOOK WHERE ID = ?");
+        cancelSql.setString(1, id);
+
+        // 삭제된 멤버 정보 string형태로 저장
+        ResultSet rs = cancelSql.executeQuery();
+        rs.next();
+        deleteBook.setId(rs.getString("ID"));
+        deleteBook.setName(rs.getString("NAME"));
+        deleteBook.setAuthor(rs.getString("AUTHOR"));
+        deleteBook.setPublishedDate(rs.getString("PUBLISHEDDATE"));
+        deleteBook.setCanBorrow(rs.getString("CANBORROW").equals('T') ? true : false);
+        deleteBook.setCurrentOwnerId(rs.getString("CURRENTOWNERID"));
+
+        // 삭제하기
         PreparedStatement pstmt = conn.prepareStatement("DELETE FROM BOOK WHERE ID=?");
         pstmt.setString(1, id);
         pstmt.executeUpdate();
         System.out.println("<도서 삭제 완료>");
     }
-
 
     @Override
     public String create(Book newBook) throws ParseException {
@@ -147,5 +163,25 @@ public class BookManager implements CRUD<Book> {
 
     }
 
+    @Override
+    public void redo() throws SQLException {
+
+        if (deleteBook.getId() == null) {
+            System.out.println("<삭제 취소할 도서가 없습니다.>");
+            return;
+        }
+        PreparedStatement pstmt =
+                conn.prepareStatement("INSERT INTO BOOK VALUES(?, ?, ?, ?, ?, ?)");
+
+        pstmt.setString(1, deleteBook.getId());
+        pstmt.setString(2, deleteBook.getName());
+        pstmt.setString(3, deleteBook.getAuthor());
+        pstmt.setString(4, deleteBook.getPublishedDate().substring(0, 10));
+        pstmt.setString(5, deleteBook.getCanBorrow() == true ? "F" : "T");
+        pstmt.setString(6, deleteBook.getCurrentOwnerId());
+
+        pstmt.executeUpdate();
+        System.out.println("<삭제 취소 완료>");
+    }
 
 }
