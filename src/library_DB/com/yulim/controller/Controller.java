@@ -67,6 +67,7 @@ public class Controller {
                     String birth = sc.next();
                     System.out.println("주소를 입력해주세요.");
                     String address = sc.next();
+                    sc.nextLine();
                     System.out.println("연락처를 입력해주세요.");
                     String phone = sc.next();
 
@@ -135,6 +136,7 @@ public class Controller {
                     String birth = sc.next();
                     System.out.println("주소를 수정해주세요.");
                     String address = sc.next();
+                    sc.nextLine();
                     System.out.println("연락처를 수정해주세요.");
                     String phone = sc.next();
                     mm.update(id, new Member(name, gender, birth, address, phone));
