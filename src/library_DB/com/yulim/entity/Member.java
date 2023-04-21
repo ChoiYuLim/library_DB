@@ -12,7 +12,7 @@ public class Member {
     private String gender;
     private String phone;
 
-    // 회원 가입
+    // 생성자
     public Member(String name, String gender, String birth, String address,
             String phone) {
         this.name = name;

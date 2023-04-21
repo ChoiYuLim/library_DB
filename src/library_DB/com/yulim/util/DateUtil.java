@@ -1,15 +1,13 @@
 package library_DB.com.yulim.util;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtil {
 
+    // 오늘 날짜 정보를 가져오는 함수
     public static String getToday() {
-        // 오늘 날짜 정보를 가져옴
         return new SimpleDateFormat("yyyyMMdd").format(new Date());
     }
 
@@ -19,8 +17,8 @@ public class DateUtil {
         return format.format(day);
     }
 
+    // 날짜를 더하는 함수
     public static Date addDate(Date date, int i) {
-
         // 얻은 날짜정보를 Calendar에 설정한다
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);

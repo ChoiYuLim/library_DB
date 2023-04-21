@@ -10,6 +10,7 @@ import library_DB.com.yulim.entity.Book;
 
 public class BookManager implements CRUD<Book> {
 
+    // 삭제 취소를 위해 저장해 둘 객체
     Book deleteBook = new Book(null, null, null);
 
     // 모든 책 리스트 최신 출간 순으로 가져오기
@@ -39,7 +40,7 @@ public class BookManager implements CRUD<Book> {
         }
     }
 
-    // Id 값으로 책 있는지 없는지
+    // Id 값으로 책 있는지 없는지 반환
     public boolean findBook(String id) {
         String sql = "SELECT * FROM BOOK WHERE ID = ?";
 
@@ -82,6 +83,7 @@ public class BookManager implements CRUD<Book> {
         }
     }
 
+    // 도서 수정
     @Override
     public void update(String id, Book changeBook) {
         String sql =
@@ -96,8 +98,6 @@ public class BookManager implements CRUD<Book> {
             int result = pstmt.executeUpdate();
             if (result == 0) {
                 System.out.println("<수정 불가>");
-            } else {
-                System.out.println(result + " rows updated.");
             }
 
         } catch (SQLException e) {
@@ -105,6 +105,7 @@ public class BookManager implements CRUD<Book> {
         }
     }
 
+    // 도서 삭제
     @Override
     public void delete(String id) throws SQLException {
 
@@ -112,7 +113,7 @@ public class BookManager implements CRUD<Book> {
         PreparedStatement cancelSql = conn.prepareStatement("SELECT * FROM BOOK WHERE ID = ?");
         cancelSql.setString(1, id);
 
-        // 삭제된 멤버 정보 string형태로 저장
+        // 삭제된 멤버 정보 deleteBook에 저장
         ResultSet rs = cancelSql.executeQuery();
         rs.next();
         deleteBook.setId(rs.getString("ID"));
@@ -129,6 +130,7 @@ public class BookManager implements CRUD<Book> {
         System.out.println("<도서 삭제 완료>");
     }
 
+    // 도서 추가
     @Override
     public String create(Book newBook) throws ParseException {
         String sql = "INSERT INTO BOOK(NAME, AUTHOR, PUBLISHEDDATE) "
@@ -162,9 +164,9 @@ public class BookManager implements CRUD<Book> {
 
     }
 
+    // 도서 삭제 취소
     @Override
     public void redo() throws SQLException {
-
         if (deleteBook.getId() == null) {
             System.out.println("<삭제 취소할 도서가 없습니다.>");
             return;

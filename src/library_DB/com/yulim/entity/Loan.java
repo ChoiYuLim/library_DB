@@ -17,6 +17,7 @@ public class Loan {
     private Boolean isReturned;
 
 
+    // 생성자
     public Loan(String bookId, String bookName, String memberId) {
         this.bookId = bookId;
         this.bookName = bookName;

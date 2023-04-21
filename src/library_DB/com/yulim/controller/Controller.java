@@ -19,9 +19,10 @@ public class Controller {
     public void run() throws Exception {
 
         int firstOption;
+
         while (true) {
             System.out.println("\n<도서 관리 프로그램 시작>\n0. 프로그램 종료 1. 관리자로 시작하기 2. 회원 가입 3. 회원 로그인");
-            // first depth option
+
             firstOption = sc.nextInt();
 
             switch (firstOption) {
@@ -32,19 +33,23 @@ public class Controller {
                 // 관리자로 시작
                 case 1: {
                     while (true) {
-                        // second depth option
                         System.out.println("\n<관리자로 시작>\n0. 뒤로 가기 1. 회원 관리 2. 도서 관리");
+
                         int secondOption = sc.nextInt();
+
                         switch (secondOption) {
+                            // 뒤로 가기
                             case 0: {
                                 break;
                             }
+                            // 회원 관리
                             case 1: {
-                                회원관리();
+                                manageMember();
                                 break;
                             }
+                            // 도서 관리
                             case 2: {
-                                도서관리();
+                                manageBook();
                                 break;
                             }
                             default: {
@@ -52,8 +57,9 @@ public class Controller {
                                 continue;
                             }
                         }
-                        if (secondOption == 0)
+                        if (secondOption == 0) {
                             break;
+                        }
                     }
                     break;
                 }
@@ -74,7 +80,7 @@ public class Controller {
                     String id = mm.create(new Member(name, gender, birth, address, phone));
                     System.out.println("\n<회원가입 완료>\n로그인 시 회원번호 " + id + "으로 입력해주세요.");
 
-                    로그인(id);
+                    login(id);
                     break;
 
                 }
@@ -85,7 +91,7 @@ public class Controller {
                         String memberId = sc.next();
                         if (isSuccessLogin(memberId)) {
                             System.out.println("\n로그인 성공");
-                            로그인(memberId);
+                            login(memberId);
                             break;
                         } else {
                             System.out.println("<로그인 실패>");
@@ -100,18 +106,17 @@ public class Controller {
                 }
             }
             if (firstOption == 0) {
-                // 프로그램 종료시, 바뀐 데이터를 저장하고 마무리한다.
                 System.out.println("프로그램을 종료합니다.");
                 return;
             }
         }
-
     }
 
-    public void 회원관리() throws SQLException {
+    public void manageMember() throws SQLException {
         int thirdOption;
         while (true) {
             System.out.println("\n<회원 관리>\n0. 뒤로 가기 1. 회원 조회 2. 회원 수정 3. 회원 삭제 4. 삭제 취소");
+
             thirdOption = sc.nextInt();
 
             switch (thirdOption) {
@@ -140,7 +145,6 @@ public class Controller {
                     System.out.println("연락처를 수정해주세요.");
                     String phone = sc.next();
                     mm.update(id, new Member(name, gender, birth, address, phone));
-
                     break;
                 }
                 // 회원 삭제
@@ -172,17 +176,25 @@ public class Controller {
 
     }
 
-    public void 도서관리() throws SQLException {
-        int option;
+    public void manageBook() throws SQLException {
+        int thirdOption;
         while (true) {
-            System.out.println("\n<도서 관리>\n0. 뒤로 가기 1. 도서 추가 2. 도서 조회 3. 도서 수정 4. 도서 삭제 5. 삭제 취소");
-            option = sc.nextInt();
+            System.out.println("\n<도서 관리>\n0. 뒤로 가기 1. 도서 조회 2. 도서 추가 3. 도서 수정 4. 도서 삭제 5. 삭제 취소");
 
-            switch (option) {
+            thirdOption = sc.nextInt();
+
+            switch (thirdOption) {
+                // 뒤로 가기
                 case 0: {
                     break;
                 }
+                // 도서 조회
                 case 1: {
+                    bm.readAllBook();
+                    break;
+                }
+                // 도서 추가
+                case 2: {
                     try {
                         System.out.println("\n<도서 추가>\n추가할 책 이름을 입력하세요.");
                         String name = sc.next();
@@ -197,10 +209,7 @@ public class Controller {
                     }
                     break;
                 }
-                case 2: {
-                    bm.readAllBook();
-                    break;
-                }
+                // 도서 수정
                 case 3: {
                     System.out.println("\n<도서 수정>\n수정하고 싶은 책 번호를 입력하세요.");
                     String id = sc.next();
@@ -213,6 +222,7 @@ public class Controller {
                     bm.update(id, new Book(name, publishedDate, author));
                     break;
                 }
+                // 도서 삭제
                 case 4: {
                     System.out.println("\n<도서 삭제>\n삭제하고 싶은 책 번호를 입력하세요.");
                     String id = sc.next();
@@ -223,6 +233,7 @@ public class Controller {
                     }
                     break;
                 }
+                // 삭제 취소
                 case 5: {
                     System.out.println("\n<삭제 취소>\n마지막으로 삭제했던 도서를 복구합니다.");
                     bm.redo();
@@ -233,13 +244,14 @@ public class Controller {
                     continue;
                 }
             }
-            if (option == 0) {
+            if (thirdOption == 0) {
                 return;
             }
         }
 
     }
 
+    // 로그인이 가능한지 반환하는 함수
     public boolean isSuccessLogin(String id) {
         // 만약 아이디값이 있으면 성공
         if (mm.findMember(id) != null)
@@ -248,7 +260,7 @@ public class Controller {
             return false;
     }
 
-    public void 로그인(String id) {
+    public void login(String id) {
         int option;
         while (true) {
             System.out.println("\n<" + mm.findMember(id).getName()
@@ -271,7 +283,7 @@ public class Controller {
                 case 2: {
                     System.out.println("\n<현재 회원님이 대출 중인 책>");
                     lm.readNowBook(id);
-                    returnBook(id);
+                    returnOrExtendBook(id);
                     break;
                 }
                 // 대출 이력 모두 보기
@@ -327,7 +339,7 @@ public class Controller {
         }
     }
 
-    public void returnBook(String memberId) {
+    public void returnOrExtendBook(String memberId) {
         int option;
         while (true) {
             System.out.println("\n0. 뒤로 가기 1. 책 반납하기 2. 대출 연장하기");

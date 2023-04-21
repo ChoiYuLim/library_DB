@@ -17,8 +17,7 @@ public class Test {
         String address = "경기도 광명시";
         String phone = "01020271910";
 
-        String sql = "INSERT INTO MEMBER(ID, NAME, GENDER, BIRTH, ADDRESS, PHONE) "
-                + ""
+        String sql = "INSERT INTO MEMBER(ID, NAME, GENDER, BIRTH, ADDRESS, PHONE) " + ""
                 + "VALUES (?,?,?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {

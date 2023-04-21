@@ -112,7 +112,7 @@ public class MemberManager implements CRUD<Member> {
         PreparedStatement cancelSql = conn.prepareStatement("SELECT * FROM MEMBER WHERE ID = ?");
         cancelSql.setString(1, id);
 
-        // 삭제된 멤버 정보 string형태로 저장
+        // 삭제된 멤버 정보를 deleteMemeber에 저장
         ResultSet rs = cancelSql.executeQuery();
         rs.next();
         deleteMember.setId(rs.getString("ID"));
@@ -169,7 +169,7 @@ public class MemberManager implements CRUD<Member> {
 
         pstmt.executeUpdate();
 
-        System.out.println("회원 \""+ deleteMember.getName()+ "\"님 삭제 취소 완료");
+        System.out.println("회원 \"" + deleteMember.getName() + "\"님 삭제 취소 완료");
         deleteMember.setId(null);
     }
 

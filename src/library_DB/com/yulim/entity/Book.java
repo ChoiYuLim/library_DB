@@ -8,6 +8,7 @@ public class Book {
     private boolean canBorrow;
     private String currentOwnerId;
 
+    // 생성자
     public Book(String name, String author, String publishedDate) {
         this.name = name;
         this.author = author;
