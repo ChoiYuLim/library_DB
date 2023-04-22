@@ -51,7 +51,7 @@ public class LoanManager {
     // 특정 회원의 현재 대출 중인 책, 반납 기간 임박한 순서
     public void readNowBook(String memberId) {
         String sql =
-                "SELECT * FROM LOAN WHERE BOOKID IN (SELECT ID FROM BOOK WHERE CURRENTOWNERID = ?) AND LOAN.ISRETURNED = 'F' ORDER BY DEADLINE DESC";
+                "SELECT * FROM LOAN WHERE BOOKID IN (SELECT ID FROM BOOK WHERE CURRENTOWNERID = ?) AND LOAN.ISRETURNED = 'F' ORDER BY DEADLINE";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, memberId);
             ResultSet rs = pstmt.executeQuery();
