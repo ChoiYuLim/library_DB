@@ -71,9 +71,9 @@ public class Controller {
                     String gender = sc.next();
                     System.out.println("생일을 입력해주세요.(19980102의 형식)");
                     String birth = sc.next();
-                    System.out.println("주소를 입력해주세요.");
-                    String address = sc.next();
                     sc.nextLine();
+                    System.out.println("주소를 입력해주세요.");
+                    String address = sc.nextLine();
                     System.out.println("연락처를 입력해주세요.");
                     String phone = sc.next();
 
@@ -139,9 +139,9 @@ public class Controller {
                     String gender = sc.next();
                     System.out.println("생일을 수정해주세요. (19980102의 형식)");
                     String birth = sc.next();
-                    System.out.println("주소를 수정해주세요.");
-                    String address = sc.next();
                     sc.nextLine();
+                    System.out.println("주소를 수정해주세요.");
+                    String address = sc.nextLine();
                     System.out.println("연락처를 수정해주세요.");
                     String phone = sc.next();
                     mm.update(id, new Member(name, gender, birth, address, phone));
@@ -219,7 +219,7 @@ public class Controller {
                     String author = sc.next();
                     System.out.println("책 출판일을 수정해주세요.");
                     String publishedDate = sc.next();
-                    bm.update(id, new Book(name, publishedDate, author));
+                    bm.update(id, new Book(name, author, publishedDate));
                     break;
                 }
                 // 도서 삭제
@@ -248,7 +248,6 @@ public class Controller {
                 return;
             }
         }
-
     }
 
     // 로그인이 가능한지 반환하는 함수

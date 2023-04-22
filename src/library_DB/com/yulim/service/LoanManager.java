@@ -141,12 +141,10 @@ public class LoanManager {
                     } else {
                         System.out.println("<반납 완료>\n");
                     }
-
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -93,7 +93,7 @@ public class BookManager implements CRUD<Book> {
             pstmt.setString(1, changeBook.getName());
             pstmt.setString(2, changeBook.getAuthor());
             pstmt.setString(3, changeBook.getPublishedDate());
-            pstmt.setString(4, changeBook.getId());
+            pstmt.setString(4, id);
 
             int result = pstmt.executeUpdate();
             if (result == 0) {
